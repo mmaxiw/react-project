@@ -1,9 +1,10 @@
 import React from 'react';
 
 // Components
-import Contact from './components/Contact';
+import Contacts from './components/Contacts';
 import Header from './components/Header';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 
@@ -11,10 +12,13 @@ function App() {
   return (
     <div className="App">
       <Header branding={'Contact Manager'} />
-      <Contact name="Maxi Wainberg"
-        email="xxx@xxx.com"
-        phone="000-0000-000"
-      />
+
+      <div className="container">
+
+        <Contacts />
+
+      </div>
+
     </div>
   );
 }
