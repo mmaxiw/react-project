@@ -1,8 +1,11 @@
 import React from 'react';
 
 // Components
-import Contacts from './components/Contacts';
+import Contacts from './components/contacts/Contacts';
 import Header from './components/Header';
+import AddContact from './components/contacts/AddContact';
+
+import { Provider } from './context';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -10,16 +13,19 @@ import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <Header branding={'Contact Manager'} />
+    <Provider>
+      <div className="App">
+        <Header branding={'Contact Manager'} />
 
-      <div className="container">
+        <div className="container">
 
-        <Contacts />
+          <AddContact />
+          <Contacts />
+
+        </div>
 
       </div>
-
-    </div>
+    </Provider>
   );
 }
 
