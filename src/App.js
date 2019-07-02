@@ -1,8 +1,11 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 // Components
+import Header from './components/layout/Header';
+import About from './components/pages/About';
+import NotFound from './components/pages/NotFound';
 import Contacts from './components/contacts/Contacts';
-import Header from './components/Header';
 import AddContact from './components/contacts/AddContact';
 
 import { Provider } from './context';
@@ -14,17 +17,23 @@ import './App.css';
 function App() {
   return (
     <Provider>
-      <div className="App">
-        <Header branding={'Contact Manager'} />
+      <Router>
+        <div className="App">
+          <Header branding={'Contact Manager'} />
 
-        <div className="container">
+          <div className="container">
 
-          <AddContact />
-          <Contacts />
+            <Switch>
+              <Route exact path="/" component={Contacts} />
+              <Route exact path="/contact/add" component={AddContact} />
+              <Route exact path="/about" component={About} />
+              <Route component={NotFound} />
+            </Switch>
+
+          </div>
 
         </div>
-
-      </div>
+      </Router>
     </Provider>
   );
 }
