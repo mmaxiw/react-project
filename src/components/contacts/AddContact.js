@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Consumer } from '../../context';
-import axios from 'axios';
-// import uuid from 'uuid';
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux';
+import { addContact } from '../../actions/contactActions';
+
 import TextInputGroup from '../layout/TextInputGroup';
 
 class AddContact extends Component {
@@ -14,7 +15,7 @@ class AddContact extends Component {
     }
 
     onChange = (e) => this.setState({ [e.target.name]: e.target.value })
-    onSubmit = async (dispatch, e) => {
+    onSubmit = e => {
         e.preventDefault();
 
         const { name, email, phone } = this.state;
@@ -32,15 +33,12 @@ class AddContact extends Component {
             return;
         }
         const newContact = {
-            // id: uuid(),
             name,
             email,
             phone,
-            errors: {}
         }
 
-        const res = await axios.post(`https://jsonplaceholder.typicode.com/users/`, newContact)
-        dispatch({ type: 'ADD_CONTACT', payload: res.data });
+        this.props.addContact(newContact);
 
         this.setState({
             name: '',
@@ -55,56 +53,53 @@ class AddContact extends Component {
         const { name, email, phone, errors } = this.state;
 
         return (
-            <Consumer>
-                {value => {
-                    const { dispatch } = value;
-                    return (
-                        <div className="card mb-3">
-                            <div className="card-header">
-                                Add Contact
+            <div className="card mb-3">
+                <div className="card-header">
+                    Add Contact
                             </div>
-                            <div className="card-body">
+                <div className="card-body">
 
-                                <form onSubmit={this.onSubmit.bind(this, dispatch)}>
+                    <form onSubmit={this.onSubmit}>
 
-                                    <TextInputGroup
-                                        label="Name"
-                                        name="name"
-                                        value={name}
-                                        placeholder="Enter Name..."
-                                        onChange={this.onChange}
-                                        error={errors.name}
-                                    />
+                        <TextInputGroup
+                            label="Name"
+                            name="name"
+                            value={name}
+                            placeholder="Enter Name..."
+                            onChange={this.onChange}
+                            error={errors.name}
+                        />
 
-                                    <TextInputGroup
-                                        label="Email"
-                                        name="email"
-                                        value={email}
-                                        placeholder="Enter Email..."
-                                        type="email"
-                                        onChange={this.onChange}
-                                        error={errors.email}
-                                    />
+                        <TextInputGroup
+                            label="Email"
+                            name="email"
+                            value={email}
+                            placeholder="Enter Email..."
+                            type="email"
+                            onChange={this.onChange}
+                            error={errors.email}
+                        />
 
-                                    <TextInputGroup
-                                        label="Phone"
-                                        name="phone"
-                                        value={phone}
-                                        placeholder="Enter Phone..."
-                                        onChange={this.onChange}
-                                        error={errors.phone}
-                                    />
+                        <TextInputGroup
+                            label="Phone"
+                            name="phone"
+                            value={phone}
+                            placeholder="Enter Phone..."
+                            onChange={this.onChange}
+                            error={errors.phone}
+                        />
 
-                                    <input type="submit" value="Add Contact" className="btn btn-light btn-block" />
-                                </form>
+                        <input type="submit" value="Add Contact" className="btn btn-light btn-block" />
+                    </form>
 
-                            </div>
-                        </div>
-                    )
-                }}
-            </Consumer>
+                </div>
+            </div>
         )
     }
 }
 
-export default AddContact;
+AddContact.prototypes = {
+    addContact: PropTypes.func.isRequired
+}
+
+export default connect(null, { addContact })(AddContact);
